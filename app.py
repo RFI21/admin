@@ -1,19 +1,78 @@
-from flask import Flask, render_template, request, jsonify,redirect,url_for
+from flask import Flask, render_template, request, jsonify,redirect,url_for,make_response, flash
 from bson import ObjectId
 from pymongo import MongoClient
 import jwt
 from datetime import datetime, timedelta
 import hashlib
 
-client = MongoClient('')
-db = client.dbresellerida
+client = MongoClient('mongodb+srv://rfi:senku27@cluster0.djattxa.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0')
+db = client.dbreseller
+
+SECRET_KEY = 'IDA'
+
 
 app=Flask(__name__)
- 
+
+
 @app.route('/', methods=['GET'])
 def home():
-    data=list(db.produk.find({}))
-    return render_template('dashboard.html', data=data)
+    token_receive = request.cookies.get("ida")
+    try:
+        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+        user_info = db.users.find_one({'username': payload["id"]})
+        return render_template('dashboard.html', user_info=user_info)
+    except jwt.ExpiredSignatureError:
+        msg = 'Your token has expired'
+        return redirect(url_for('login', msg=msg))
+    except jwt.exceptions.DecodeError:
+        msg = 'There was a problem logging you in'
+        return redirect(url_for('login', msg=msg))
+
+# SIGN IN
+
+@app.route("/sign_in", methods=["POST"])
+def sign_in():
+    # Sign in
+    username_receive = request.form["username_give"]
+    password_receive = request.form["password_give"]
+    pw_hash = hashlib.sha256(password_receive.encode("utf-8")).hexdigest()
+    result = db.users.find_one(
+        {
+            "username": username_receive,
+            "password": pw_hash,
+        }
+    )
+    if result:
+        payload = {
+            "id": username_receive,
+            # the token will be valid for 24 hours
+            "exp": datetime.utcnow() + timedelta(seconds=60 * 60 * 24),
+        }
+        token = jwt.encode(payload, SECRET_KEY, algorithm="HS256")
+
+        return jsonify(
+            {
+                "result": "success",
+                "token": token,
+            }
+        )
+    # Let's also handle the case where the id and
+    # password combination cannot be found
+    else:
+        return jsonify(
+            {
+                "result": "fail",
+                "msg": "Kami tidak menemukan pengguna dengan Username/Password tersebut",
+            }
+        )
+
+@app.route('/login', methods=['GET'])
+def login():
+    msg = request.args.get('msg')
+    return render_template('login.html', msg=msg)
+
+
+# =========================================================================================================================
 
 @app.route('/produk', methods=['GET','POST'])
 def produk():
