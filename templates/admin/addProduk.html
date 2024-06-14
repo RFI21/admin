@@ -25,7 +25,7 @@
 </head>
 
 <body>
-    {% include 'header.html' %}
+    {% include 'admin/header.html' %}
     <main id="main" class="main">
 
         <div class="pagetitle">
@@ -55,8 +55,24 @@
 
                         <div class="mb-3">
                             <label for="exampleInputPassword1" class="form-label">Ukuran</label>
-                            <input type="number" class="form-control" name="harga" style="border-radius: 13px;"
-                                placeholder="Masukan Ukuran" required />
+                            <div id="ukuranProduk" class="d-flex flex-row">
+                                <div class="form-check me-3">
+                                    <input class="form-check-input" type="checkbox" name="ukuran" value="S" id="ukuranS">
+                                    <label class="form-check-label" for="ukuranS">S</label>
+                                </div>
+                                <div class="form-check me-3">
+                                    <input class="form-check-input" type="checkbox" name="ukuran" value="M" id="ukuranM">
+                                    <label class="form-check-label" for="ukuranM">M</label>
+                                </div>
+                                <div class="form-check me-3">
+                                    <input class="form-check-input" type="checkbox" name="ukuran" value="L" id="ukuranL">
+                                    <label class="form-check-label" for="ukuranL">L</label>
+                                </div>
+                                <div class="form-check me-3">
+                                    <input class="form-check-input" type="checkbox" name="ukuran" value="XL" id="ukuranXL">
+                                    <label class="form-check-label" for="ukuranXL">XL</label>
+                                </div>
+                            </div>
                         </div>
                         <div class="mb-3">
                             <label for="exampleInputPassword1" class="form-label">Gambar</label>
@@ -68,8 +84,8 @@
                             <textarea class="form-control" name="deskripsi" style="border-radius: 13px;"
                                 placeholder="Masukan Deskripsi" required ></textarea>
                         </div>
-                        <div class="mb-3 ">
-                            <button onclick="add()" type="submit" class="btn btn-danger" style="margin-left: 90%;">Submit</button>
+                        <div class="d-flex justify-content-end mt-5 mb-3 ">
+                            <button onclick="add()" type="submit" class="btn btn-danger mt-5" >Submit</button>
                         </div>
                         
                         
@@ -77,7 +93,7 @@
     </main><!-- End #main -->
 
     <!-- ======= Footer ======= -->
-    {% include 'footer.html' %}
+    {% include 'admin/footer.html' %}
     <!-- End Footer -->
 
     <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i

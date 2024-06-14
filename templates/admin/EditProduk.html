@@ -26,7 +26,7 @@
 </head>
 
 <body>
-    {% include 'header.html' %}
+    {% include 'admin/header.html' %}
 
     <main id="main" class="main">
 
@@ -43,22 +43,48 @@
         <div class="card border-0 shadow mb-4 ">
             <div class="card-body mt-4">
                 <div class="table-responsive">
-                    <form action="/edit" method="post" enctype="multipart/form-data">
-                        <input type="hidden" name="_id" value="">
+                    <form action="/edit/{{data['_id']}}" method="post" enctype="multipart/form-data">
+                        <input type="hidden" name="_id" value="{{data['_id']}}">
                         <div class="mb-3">
                             <label for="exampleInputEmail1" class="form-label">Nama Produk</label>
                             <input type="text" class="form-control" name="nama" style="border-radius: 13px;"
-                                placeholder="Enter the Fruits Name" value="" required />
+                            placeholder="Masukan Nama Produk" value="{{data['nama']}}" required />
                         </div>
                         <div class="mb-3">
                             <label for="exampleInputPassword1" class="form-label">Harga</label>
                             <input type="number" class="form-control" name="harga" style="border-radius: 13px;"
-                                placeholder="Enter the Price" value="" required />
+                            placeholder="Masukan Harga" value="{{data['harga'] }}" required />
                         </div>
                         <div class="mb-3">
                             <label for="exampleInputPassword1" class="form-label">Ukuran</label>
-                            <input type="number" class="form-control" name="harga" style="border-radius: 13px;"
-                                placeholder="Masukan Ukuran" value="" required />
+                            <div id="ukuranProduk" class="d-flex flex-row">
+                                {% for size in ["S", "M", "L", "XL"] %}
+                                <div class="form-check me-3">
+                                    <input class="form-check-input" type="checkbox" name="ukuran" value="{{ size }}"
+                                           id="{{ size }}-{{ data._id }}" 
+                                           {% if size in data.ukuran %} checked {% endif %}>
+                                    <label class="form-check-label" for="{{ size }}-{{ data._id }}">
+                                        {{ size }}
+                                    </label>
+                                </div>
+                            {% endfor %}
+                                <!-- <div class="form-check me-3">
+                                    <input class="form-check-input" type="checkbox" name="ukuran" value="S" id="ukuranS">
+                                    <label class="form-check-label" for="ukuranS">S</label>
+                                </div>
+                                <div class="form-check me-3">
+                                    <input class="form-check-input" type="checkbox" name="ukuran" value="M" id="ukuranM">
+                                    <label class="form-check-label" for="ukuranM">M</label>
+                                </div>
+                                <div class="form-check me-3">
+                                    <input class="form-check-input" type="checkbox" name="ukuran" value="L" id="ukuranL">
+                                    <label class="form-check-label" for="ukuranL">L</label>
+                                </div>
+                                <div class="form-check me-3">
+                                    <input class="form-check-input" type="checkbox" name="ukuran" value="XL" id="ukuranXL">
+                                    <label class="form-check-label" for="ukuranXL">XL</label>
+                                </div> -->
+                            </div>
                         </div>
 
                         <div class="mb-3 d-flex flex-column gap-2">
@@ -70,16 +96,16 @@
                         <div class="mb-3">
                             <label for="exampleInputPassword1" class="form-label">Deskripsi Produk</label>
                             <textarea class="form-control" name="deskripsi" style="border-radius: 13px;"
-                                placeholder="Masukan Deskripsi" value="" required /></textarea>
+                                placeholder="Masukan Deskripsi" value="{{data['deskripsi'] }}" required> {{data['deskripsi'] }}</textarea>
                         </div>
-                        <div class="mb-3 ">
-                            <button onclick="edit()" type="submit" class="btn btn-danger" style="margin-left: 90%;">Submit</button>
+                        <div class="d-flex justify-content-end mt-5 mb-3  ">
+                            <button onclick="edit()" type="submit" class="btn btn-danger" >Submit</button>
                         </div>
                     </form>
     </main><!-- End #main -->
 
     <!-- ======= Footer ======= -->
-    {% include 'footer.html' %}
+    {% include 'admin/footer.html' %}
     <!-- End Footer -->
 
     <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i

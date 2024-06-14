@@ -35,7 +35,7 @@
   </head>
 
   <body>
-    {% include 'header.html' %}
+    {% include 'admin/header.html' %}
 
     <main id="main" class="main">
       <div class="pagetitle">
@@ -81,19 +81,27 @@
                     <th class="border-0 rounded-end text-center">Aksi</th>
                   </tr>
                 </thead>
-
+                {% for produk in data %}
                 <tr>
-                  <td class="text-center align-middle">1</td>
-                  <td class="text-center align-middle">Gamis</td>
-                  <td class="text-center align-middle">Rp. 200000</td>
-                  <td class="text-center align-middle">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eum, ex?</td>
-                  <td class="text-center align-middle">Xl</td>
-                  <td class="text-center align-middle"><img src="../static/assets/img/product-5.jpg" alt="" width="50" /></td>
+
+                  <td class="text-center align-middle">{{loop.index}}</td>
+                  <td class="text-center align-middle">{{produk['nama']}}</td>
+                  <td class="text-center align-middle">{{produk['harga']}}</td>
+                  <td class="text-center align-middle">{{produk['deskripsi']}}</td>
+                  <td class="text-center align-middle">
+                    {% for size in produk.ukuran %}
+                    {{ size }}
+                    {% if not loop.last %}
+                        ,
+                    {% endif %}
+                {% endfor %}
+              </td>
+                  <td class="text-center align-middle"><img src="../static/assets/imagePath/{{produk['gambar']}}" alt="" width="50" /></td>
 
                   <td class="text-center align-middle">
-                    <a href="/edit"> <img src="https://img.icons8.com/plumpy/26/000000/edit-calendar.png" /></a>
+                    <a href="/edit/{{produk['_id']}}"> <img src="https://img.icons8.com/plumpy/26/000000/edit-calendar.png" /></a>
                     |
-                    <a onclick="del()" href="/delete">
+                    <a onclick="del()" href="/delete/{{produk['_id']}}">
                       <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="25" height="25" viewBox="0 0 172 172" style="fill: #7d1710">
                         <g
                           fill="none"
@@ -143,6 +151,7 @@
                     ></a>
                   </td>
                 </tr>
+                {% endfor %}
               </table>
             </div>
           </div>
@@ -153,7 +162,7 @@
     <!-- End #main -->
 
     <!-- ======= Footer ======= -->
-    {% include 'footer.html' %}
+    {% include 'admin/footer.html' %}
     <!-- End Footer -->
 
     <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
