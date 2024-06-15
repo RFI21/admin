@@ -241,8 +241,6 @@ def status():
 # =========================================================================================
 # USER PAGE
 
-
-
 @app.route('/shop', methods=['GET'])
 def shop():
     data=list(db.produk.find({}))
@@ -251,10 +249,20 @@ def shop():
             item['harga']=babel.numbers.format_currency(item['harga'], "IDR", locale='id_ID')
     return render_template('shop.html',data=data)
 
+@app.route('/detail/<_id>', methods=['GET'])
+def detail(_id):
+    id=ObjectId(_id)
+    data=list(db.produk.find({'_id':id}))
+    data2=list(db.produk.find({}))
+    for item in data:
+        if 'harga' in item:
+            item['harga']=babel.numbers.format_currency(item['harga'], "IDR", locale='id_ID')
+    return render_template('detail.html', data=data[0],data2=data2)
+
 @app.route('/detail', methods=['GET'])
-def detail():
-    msg = request.args.get('msg')
-    return render_template('detail.html', msg=msg)
+def detailt():
+
+    return render_template('detail.html')
 
 @app.route('/contact', methods=['GET'])
 def contact():
@@ -271,6 +279,10 @@ def checkout():
     msg = request.args.get('msg')
     return render_template('checkout.html', msg=msg)
 
+@app.route('/statusUser', methods=['GET'])
+def statusUser():
+    msg = request.args.get('msg')
+    return render_template('status.html', msg=msg)
 
 if __name__ == '__main__':
     app.run('0.0.0.0',port=5000,debug= True)
