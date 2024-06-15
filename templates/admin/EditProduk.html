@@ -56,6 +56,11 @@
                             placeholder="Masukan Harga" value="{{data['harga'] }}" required />
                         </div>
                         <div class="mb-3">
+                            <label for="exampleInputPassword1" class="form-label">Stok</label>
+                            <input type="number" class="form-control" name="stok" style="border-radius: 13px;"
+                                placeholder="Masukan Stok" value="{{data['stok'] }}" required />
+                        </div>
+                        <div class="mb-3">
                             <label for="exampleInputPassword1" class="form-label">Ukuran</label>
                             <div id="ukuranProduk" class="d-flex flex-row">
                                 {% for size in ["S", "M", "L", "XL"] %}

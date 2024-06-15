@@ -163,6 +163,7 @@ def addproduk():
     if request.method == 'POST':
         nama= request.form['nama']
         harga=request.form['harga']
+        stok= request.form['stok']
         ukuran=request.form.getlist('ukuran')
         deskripsi= request.form['deskripsi']
         gambar= request.files['gambar']
@@ -182,6 +183,7 @@ def addproduk():
             'nama':nama,
             'harga':harga,
             'ukuran':ukuran,
+            'stok':stok,
             'gambar':file_asli,
             'deskripsi':deskripsi
         }
@@ -195,6 +197,7 @@ def editproduk(_id):
         id = request.form['_id']
         nama= request.form['nama']
         harga=request.form['harga']
+        stok= request.form['stok']
         ukuran=request.form.getlist('ukuran')
         deskripsi= request.form['deskripsi']
         gambar= request.files['gambar']
@@ -204,6 +207,7 @@ def editproduk(_id):
             'nama':nama,
             'harga':harga,
             'ukuran':ukuran,
+            'stok':stok,
             'deskripsi':deskripsi
         }
         if gambar:

@@ -77,6 +77,7 @@
                     <th class="border-0 text-center">Harga</th>
                     <th class="border-0 text-center">Deskripsi</th>
                     <th class="border-0 text-center">Ukuran</th>
+                    <th class="border-0 text-center">Stok</th>
                     <th class="border-0 text-center">Gambar</th>
                     <th class="border-0 rounded-end text-center">Aksi</th>
                   </tr>
@@ -96,6 +97,7 @@
                     {% endif %}
                 {% endfor %}
               </td>
+              <td class="text-center align-middle">{{produk['stok']}}</td>
                   <td class="text-center align-middle"><img src="../static/assets/imagePath/{{produk['gambar']}}" alt="" width="50" /></td>
 
                   <td class="text-center align-middle">
